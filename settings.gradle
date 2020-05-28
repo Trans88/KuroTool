@@ -1,0 +1,3 @@
+rootProject.name='KuroToll'
+include ':app'
+include ':kurotool'
