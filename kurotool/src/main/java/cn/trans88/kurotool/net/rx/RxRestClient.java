@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
 import retrofit2.http.Url;
 
@@ -78,9 +81,15 @@ public class RxRestClient {
             default:
                 break;
         }
+        if (observable !=null){
+            observable = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        }else {
+            throw new NullPointerException("Observable is null!");
+        }
 
         return observable;
     }
+
 
     public final RxRestClient setURL(String url) {
         URL = url;
@@ -101,8 +110,8 @@ public class RxRestClient {
 //    /**
 //     * 具体使用方法
 //     */
-    public final Observable<String> get() {
-        return request(HttpMethod.GET);
+    public final void get(Observer<? super String> observer) {
+         subscribe(request(HttpMethod.GET),observer);
     }
 
     //
@@ -118,15 +127,15 @@ public class RxRestClient {
 //
 //    }
 //
-    public final Observable<String> post() {
+    public final void post(Observer<? super String> observer) {
         if (BODY == null) {
-            return request(HttpMethod.POST);
+            subscribe(request(HttpMethod.GET),observer);
         } else {
             if (!PARAMS.isEmpty()) {
                 //原始的数据的话，参数一定需要为空
                 throw new RuntimeException("postRaw params must be null");
             }
-            return request(HttpMethod.POST_RAW);
+            subscribe(request(HttpMethod.GET),observer);
         }
 
     }
@@ -142,4 +151,8 @@ public class RxRestClient {
 ////    public final void download(){
 ////        new DownLoadHandler(URL,REQUEST,SUCCESS,FAILURE,DOWNLOAD_DIR,EXTENSION,NAME,ERROR).handleDownload();
 ////    }
+
+    private void subscribe (Observable<String> observable,Observer<? super String> observer){
+        observable.subscribe(observer);
+    }
 }

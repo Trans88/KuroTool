@@ -1,7 +1,6 @@
 package cn.trans88.kurotoll;
 
 import android.app.Activity;
-import android.database.Observable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,6 +14,7 @@ import cn.trans88.kurotool.net.rx.BaseObserver;
 import cn.trans88.kurotool.net.rx.EntityObserver;
 import cn.trans88.kurotool.net.rx.RestCreator;
 import cn.trans88.kurotool.net.rx.RxRestClient;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -61,16 +61,14 @@ public class TestActivity extends AppCompatActivity {
                 .useInterceptor(true)//是否开启Http拦截器，默认开启
                 .build();
         rxRestClient
-                .setParams("","")//输入参数，可输可不输，支持Hashmap,file,单一key-value
-                .setURL("users/")//输入路由地址
-                .get()//请求的方式
-                .subscribeOn(Schedulers.io())//切换到IO线程
-                .observeOn(AndroidSchedulers.mainThread())//切换回主线程
-                .subscribe(new BaseObserver<TestEntity>() {//需要解析成的对象TestEntity可换成任意对象
+                .setParams("", "")//输入参数，可输可不输，支持Hashmap,file,单一key-value
+                .setURL("users/") //输入路由地址
+                .post(new BaseObserver<TestEntity>() {//请求方式，传入一个观察者,需要解析成的对象TestEntity可换成任意实体对象
                     @Override
                     protected void onGot(TestEntity entities) {
                         Log.e(TAG," getCommandId : "+entities.getCommand().getId());
                     }
                 });
+//
     }
 }
