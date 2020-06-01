@@ -15,9 +15,9 @@ import okhttp3.RequestBody;
 import retrofit2.http.Url;
 
 /**
- * @author TRS透明
+ * @author TRS
  * Created on 2019/8/13
- * function : 网络请求
+ * function : Network request
  */
 public class RxRestClient {
     private static String URL;
@@ -110,7 +110,7 @@ public class RxRestClient {
 //    /**
 //     * 具体使用方法
 //     */
-    public final void get(Observer<? super String> observer) {
+    public final void get(BaseObserver observer) {
          subscribe(request(HttpMethod.GET),observer);
     }
 
@@ -127,12 +127,12 @@ public class RxRestClient {
 //
 //    }
 //
-    public final void post(Observer<? super String> observer) {
+    public final void post(BaseObserver<?> observer) {
         if (BODY == null) {
             subscribe(request(HttpMethod.GET),observer);
         } else {
             if (!PARAMS.isEmpty()) {
-                //原始的数据的话，参数一定需要为空
+                //For the original data, the parameter must be empty
                 throw new RuntimeException("postRaw params must be null");
             }
             subscribe(request(HttpMethod.GET),observer);
@@ -151,8 +151,8 @@ public class RxRestClient {
 ////    public final void download(){
 ////        new DownLoadHandler(URL,REQUEST,SUCCESS,FAILURE,DOWNLOAD_DIR,EXTENSION,NAME,ERROR).handleDownload();
 ////    }
-
-    private void subscribe (Observable<String> observable,Observer<? super String> observer){
+    @SuppressWarnings("unchecked")
+    private void subscribe (Observable<String> observable,Observer observer){
         observable.subscribe(observer);
     }
 }

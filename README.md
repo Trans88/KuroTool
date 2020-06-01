@@ -13,7 +13,7 @@ buildscript {
 
 **Gradle依赖：**
 ```kotlin
-implementation 'com.trs.kuroTool:kuroTool:1.0.0'
+implementation 'com.trs.kuroTool:kuroTool:1.0.1'
 ```
 或者
 
@@ -38,12 +38,9 @@ RxRestClient rxRestClient = RxRestClient.builder()
                 .useInterceptor(true)//是否开启Http拦截器，默认开启
                 .build();
         rxRestClient
-                .setParams("","")//输入参数，可输可不输，支持Hashmap,file,单一key-value
-                .setURL("users/")//输入路由地址
-                .get()//请求的方式
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<TestEntity>() {//需要解析成的对象TestEntity可换成任意实体类型
+                .setParams("", "")//输入参数，可输可不输，支持Hashmap,file,单一key-value
+                .setURL("users/") //输入路由地址
+                .post(new BaseObserver<TestEntity>() {//请求方式，传入一个观察者,需要解析成的对象TestEntity可换成任意实体对象
                     @Override
                     protected void onGot(TestEntity entities) {
                         Log.e(TAG," getCommandId : "+entities.getCommand().getId());

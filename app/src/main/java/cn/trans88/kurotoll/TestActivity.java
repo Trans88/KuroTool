@@ -1,9 +1,7 @@
 package cn.trans88.kurotoll;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,15 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.WeakHashMap;
 
 import cn.trans88.kurotool.net.rx.BaseObserver;
-import cn.trans88.kurotool.net.rx.EntityObserver;
-import cn.trans88.kurotool.net.rx.RestCreator;
 import cn.trans88.kurotool.net.rx.RxRestClient;
-import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class TestActivity extends AppCompatActivity {
     private static final String TAG = "TestActivity";
@@ -69,6 +61,6 @@ public class TestActivity extends AppCompatActivity {
                         Log.e(TAG," getCommandId : "+entities.getCommand().getId());
                     }
                 });
-//
+
     }
 }

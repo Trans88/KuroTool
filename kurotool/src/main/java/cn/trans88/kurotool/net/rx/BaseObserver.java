@@ -2,6 +2,8 @@ package cn.trans88.kurotool.net.rx;
 
 import android.util.Log;
 
+import androidx.annotation.CheckResult;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -20,9 +22,6 @@ import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
 
 public abstract class BaseObserver<T> implements Observer<String> {
-    /**
-     * lalalalalall
-     */
     private static final String TAG = "BaseObserver";
     private Class<T> cls = null;
 
@@ -45,11 +44,10 @@ public abstract class BaseObserver<T> implements Observer<String> {
         }
 
         /**
-         *getGenericSuperclass()用来返回表示当前Class 所表示的实体（类、接口、基本类型或 void）的直接超类的Type。如果这个直接超类是参数化类型的，则返回的Type对象必须明确反映在源代码中声明时使用的类型
+         *getGenericSuperclass() Used to return the current Class Represented entity (Class, interface, basic type or void)
+         * Direct superclass of Type。If the direct superclass is of parameterized type,
+         * the returned type object must explicitly reflect the type used when declared in the source code
          */
-
-
-
         Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
 //        Class<? extends BaseObserver> aClass = getClass();
@@ -92,22 +90,22 @@ public abstract class BaseObserver<T> implements Observer<String> {
         String msg;
         switch (reason) {
             case CONNECT_ERROR:
-                msg = "连接错误" + err;
+                msg = "connection error: " + err;
                 break;
             case CONNECT_TIMEOUT:
-                msg = "连接超时" + err;
+                msg = "connection time out: " + err;
                 break;
             case BAD_NETWORK:
-                msg = "网络出错" + err;
+                msg = "network error: " + err;
                 break;
             case PARSE_ERROR:
-                msg = "解析出错" + err;
+                msg = "parsing error :" + err;
                 break;
             case UNKNOWN_ERROR:
-                msg = "未知错误" + err;
+                msg = "unknown error :" + err;
                 break;
             default:
-                msg = "未知错误" + err;
+                msg = "unknown error: " + err;
                 break;
         }
 

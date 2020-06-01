@@ -23,7 +23,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+        encoding "UTF-8"
+    }
 }
 
 dependencies {
@@ -63,7 +67,7 @@ publish {
     userOrg = 'trs'
     groupId = 'com.trs.kuroTool'
     artifactId = 'kuroTool'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = 'include some tool for android '
     website = 'https://github.com/Trans88/KuroTool'
 }
