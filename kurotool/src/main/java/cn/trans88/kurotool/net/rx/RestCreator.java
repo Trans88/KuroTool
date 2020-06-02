@@ -18,7 +18,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class RestCreator {
+class RestCreator {
 
     private static final ArrayList<Interceptor> INTERCEPTORS =new ArrayList<>();
     private static String BASE_URL= "";
@@ -26,10 +26,10 @@ public class RestCreator {
 //    private static String BASE_URL= "";
 
     private static final class ParamsHolder{
-        public static final WeakHashMap<String, Object> PARAMS=new WeakHashMap<>();
+        static final WeakHashMap<String, Object> PARAMS=new WeakHashMap<>();
     }
 
-    public static WeakHashMap<String, Object> getParams(){
+    static WeakHashMap<String, Object> getParams(){
         return ParamsHolder.PARAMS;
     }
 
@@ -78,11 +78,11 @@ public class RestCreator {
         return RxRestServiceHolder.REST_SERVICE;
     }
 
-    public static void setUse(boolean use){
+    static void setUse(boolean use){
             mUse=use;
     }
 
-    public static RxRestService getRxRestService(String baseUrl){
+    static RxRestService getRxRestService(String baseUrl){
         setBaseUrl(baseUrl);
         return RxRestServiceHolder.REST_SERVICE;
     }
@@ -95,7 +95,7 @@ public class RestCreator {
         INTERCEPTORS.add(interceptor);
     }
 
-    public static ArrayList<Interceptor> getInterceptor(){
+    private  static ArrayList<Interceptor> getInterceptor(){
         HttpLoggingInterceptor loggingInterceptor =new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(@NotNull String s) {

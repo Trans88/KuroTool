@@ -10,6 +10,7 @@ import java.util.WeakHashMap;
 
 import cn.trans88.kurotool.net.rx.BaseObserver;
 import cn.trans88.kurotool.net.rx.RxRestClient;
+import cn.trans88.kurotool.net.rx.RxRestClientBuilder;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -20,34 +21,6 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        RxRestClient build = RxRestClient.builder().url("").build();
         WeakHashMap<String,Object> params =new WeakHashMap<>();
-//        RxRestClient.builder()
-//                .baseUrl("http://192.168.8.66:8083/")
-//                .url("users/")
-//                .build()
-//                .get()
-//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<String>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(String s) {
-//                        Log.e(TAG, "onNext: "+s );
-//                        Toast.makeText(TestActivity.this,s,Toast.LENGTH_LONG).show();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.e(TAG, "onError: "+e.getMessage() );
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.e(TAG, "onComplete: " );
-//                    }
-//                });
         RxRestClient rxRestClient = RxRestClient.builder()
                 .baseUrl("http://192.168.8.66:8083/") //输入基本的ip地址构建RxRestClient对象
                 .useInterceptor(true)//是否开启Http拦截器，默认开启
