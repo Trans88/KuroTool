@@ -69,10 +69,11 @@ WsManager wsManager = WsManager.builder()
                 });
 
         wsManager.send("test");//向服务器发送的内容
+        wsManager.stopConnect(1000,"normal close");//停止连接，接收两个参数code和提示内容
 ```
 
 **打赏**
 
 如果对您有所帮助，可以给我打赏，当做请我一杯咖啡或者一瓶酒作为奖励，您的帮助对我非常重要！
 
-<img src="README.assets/1590744983.jpg" style="zoom:22%;" /><img src="README.assets/weixin.png" style="zoom:20%;" />
+<img src="README.assets/1590744983.jpg" height="auto" width ="400" style="zoom:22%;" /><img src="README.assets/weixin.png" height="auto" width ="400" style="zoom:20%;" />
