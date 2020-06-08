@@ -3,5 +3,7 @@ package cn.trans88.kurotool.net.rx;
 public enum HttpMethod {
     GET,
     POST,
-    POST_RAW
+    POST_RAW,
+    PUT,
+    PUT_RAW
 }

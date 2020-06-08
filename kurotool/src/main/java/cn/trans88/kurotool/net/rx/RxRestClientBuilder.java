@@ -3,6 +3,7 @@ package cn.trans88.kurotool.net.rx;
 import android.content.Context;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -17,6 +18,7 @@ public class RxRestClientBuilder {
     private File mFile=null;
     private String mBaseUrl=null;
     private boolean mUse =true;
+    private Map HEADERS =new HashMap<String,String>();
 
     RxRestClientBuilder(){
 
@@ -26,6 +28,11 @@ public class RxRestClientBuilder {
         this.mUse=bool;
         return this;
     }
+
+//    public final RxRestClientBuilder headers(HashMap<String,String> headers){
+//        this.HEADERS=headers;
+//        return this;
+//    }
 
     public final RxRestClientBuilder baseUrl(String baseUrl){
         this.mBaseUrl=baseUrl;

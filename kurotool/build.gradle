@@ -67,7 +67,7 @@ publish {
     userOrg = 'trs'
     groupId = 'com.trs.kuroTool'
     artifactId = 'kuroTool'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.2'
     desc = 'include some tool for android '
     website = 'https://github.com/Trans88/KuroTool'
 }

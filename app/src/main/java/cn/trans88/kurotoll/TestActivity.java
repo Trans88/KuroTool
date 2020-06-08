@@ -13,6 +13,8 @@ import cn.trans88.kurotool.net.rx.RxRestClient;
 import cn.trans88.kurotool.net.rx.RxRestClientBuilder;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class TestActivity extends AppCompatActivity {
     private static final String TAG = "TestActivity";
@@ -26,14 +28,15 @@ public class TestActivity extends AppCompatActivity {
                 .useInterceptor(true)//是否开启Http拦截器，默认开启
                 .build();
         rxRestClient
-                .setParams("", "")//输入参数，可输可不输，支持Hashmap,file,单一key-value
+                .setParam("", "")//输入参数，可输可不输，支持Hashmap,file,单一key-value body和param不能同时存在
                 .setURL("users/") //输入路由地址
-                .post(new BaseObserver<TestEntity>() {//请求方式，传入一个观察者,需要解析成的对象TestEntity可换成任意实体对象
+                .setHeader("Authorization","test")//设置请求头
+//                .setBody(RequestBody.create("", MediaType.parse("application/json;charset=UTF-8")))
+                .get(new BaseObserver<TestEntity>() {//请求方式，传入一个观察者,需要解析成的对象TestEntity可换成任意实体对象
                     @Override
                     protected void onGot(TestEntity entities) {
                         Log.e(TAG," getCommandId : "+entities.getCommand().getId());
                     }
                 });
-
     }
 }

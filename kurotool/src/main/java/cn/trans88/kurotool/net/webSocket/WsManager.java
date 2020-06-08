@@ -27,7 +27,7 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-
+//todo 我觉得这里不用使用链式调用，可以使用接口来实现，面向接口编程
 public class WsManager {
     private static final String TAG = "WsManager";
 
@@ -48,8 +48,8 @@ public class WsManager {
     private volatile boolean isCloseConnect =false;
 
     private volatile LinkedBlockingQueue<String> sendQueue ;
-    private volatile static ThreadPoolExecutor threadPool;  //线程池
-    private final static int poolSize = Runtime.getRuntime().availableProcessors() * 2 + 1; //线程池大小
+    private volatile static ThreadPoolExecutor threadPool;  //Thread pool
+    private final static int poolSize = Runtime.getRuntime().availableProcessors() * 2 + 1; //Thread pool size
 
     private Handler wsMainHandler = new Handler(Looper.getMainLooper());
 
@@ -67,7 +67,7 @@ public class WsManager {
 
         threadPool = new ThreadPoolExecutor(poolSize, poolSize, 10, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
         sendQueue =new LinkedBlockingQueue<>();
-        //使用生产者消费者发送消息，用一个死循环等待
+        //use producer consumer to send message and use a dead cycle to wait
         threadPool.execute(sendMessage);
         initObservable();
     }
@@ -80,7 +80,7 @@ public class WsManager {
         observable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                Log.e(TAG, "subscribe: initObservable");
+                Log.i(TAG, "subscribe: initObservable");
                 mEmitter =emitter;
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
@@ -88,7 +88,7 @@ public class WsManager {
 
     private void initWebSocket() {
         if (okHttpClient == null) {
-            Log.e(TAG, "initWebSocket:okHttpClient is null ");
+            Log.i(TAG, "initWebSocket:okHttpClient is null ");
             okHttpClient = new OkHttpClient.Builder()
                     .retryOnConnectionFailure(true)//如果没配置，okhttp默认就是true
                     .build();
@@ -101,14 +101,14 @@ public class WsManager {
         }
 
 
-        Log.e(TAG, "initWebSocket");
+        Log.i(TAG, "initWebSocket");
         okHttpClient.dispatcher().cancelAll();
 
 
         okHttpClient.newWebSocket(mRequest, new WebSocketListener() {
             @Override
             public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-                Log.e(TAG, "onClosed: 连接关闭，" + reason);
+                Log.i(TAG, "onClosed connection closed : " + reason);
                 super.onClosed(webSocket, code, reason);
                 wsMainHandler.removeCallbacks(heartbeat);
 //                tryReconnect();
@@ -117,25 +117,24 @@ public class WsManager {
             @Override
             public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
                 //是当远程端暗示没有数据交互时回调（即此时准备关闭，但连接还没有关闭）
-                Log.e(TAG, "onClosed: 连接正在关闭，" + reason);
+                Log.i(TAG, "onClosing connection closing :" + reason);
                 super.onClosing(webSocket, code, reason);
             }
+
 
             @Override
             public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
 
                 super.onFailure(webSocket, t, response);
-                Log.e(TAG, "onFailure: 连接失败," + t.getMessage());
+                Log.i(TAG, "onFailure  connection failed :" + t.getMessage());
 //                mEmitter.onError(t);
                 wsMainHandler.removeCallbacks(heartbeat);
                 tryReconnect();
-
-
             }
 
             @Override
             public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
-                Log.e(TAG, "onMessage: 接收到消息"+text);
+                Log.i(TAG, "onMessage message received: "+text);
                 super.onMessage(webSocket, text);
                 mEmitter.onNext(text);
             }
@@ -148,14 +147,14 @@ public class WsManager {
             @Override
             public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
                 super.onOpen(webSocket, response);
-                Log.e(TAG, "onOpen: connecting is open");
+                Log.i(TAG, "onOpen: connecting is open");
                 mWebSocket = webSocket;
                 isCloseConnect =false;
 
                 if (heartbeatContext!=null){
                     wsMainHandler.post(heartbeat);
                 }else {
-                    Log.e(TAG, "没有心跳内容，不发送心跳");
+                    Log.i(TAG, "No heartbeat content, do not send heartbeat");
                 }
 
 
@@ -185,7 +184,7 @@ public class WsManager {
 
         if (mWebSocket!=null){
             isCloseConnect = mWebSocket.close(code, "closeContext");
-            Log.e(TAG, "stopConnect: "+isCloseConnect );
+            Log.i(TAG, "stopConnect: "+isCloseConnect );
             mWebSocket =null;
         }
 
@@ -205,12 +204,12 @@ public class WsManager {
     }
 
     private void tryReconnect() {
-        Log.e(TAG, "tryReconnect: ");
+        Log.i(TAG, "tryReconnect: ");
         wsMainHandler.postDelayed(reconnectRunnable,reconnectTime);
     }
 
     private Runnable reconnectRunnable = () -> {
-        Log.e(TAG, "与服务器重连中......" );
+        Log.i(TAG, "Reconnecting with server......" );
         openConnectSendStringList.clear();
         initWebSocket();
     };
@@ -219,7 +218,7 @@ public class WsManager {
         @Override
         public void run() {
             mWebSocket.send(heartbeatContext);
-            Log.e(TAG, "heartbeat: "+heartbeatContext );
+            Log.i(TAG, "heartbeat: "+heartbeatContext );
             wsMainHandler.postDelayed(this,heartbeatTime);
         }
     };
@@ -227,7 +226,7 @@ public class WsManager {
     private Runnable sendMessage =new Runnable() {
         @Override
         public void run() {
-            Log.e(TAG, "sendMessage");
+            Log.i(TAG, "sendMessage");
             while (true){
                 try {
                     while (mWebSocket==null){

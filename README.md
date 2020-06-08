@@ -47,13 +47,13 @@ RxRestClient rxRestClient = RxRestClient.builder()
                     }
                 });
 ```
-**如何使用webSocket长连接**
+**如何使用webSocket长连接：**
 ```java
 WsManager wsManager = WsManager.builder()
                 .wsUrl("ws://ledok.cn:8083/")//连接地址
-                .heartBeatTime(10*1000)//设置心跳时间
+                .heartBeatTime(10*1000)//设置心跳时间,默认时间30s
                 .reconnect(true)//设置是否重连，默认为true
-                .reconnectTime(5*1000)//设置重连时间
+                .reconnectTime(5*1000)//设置重连时间,默认时间10s
                 .heartBeatContext("beat")//设置心跳发送的内容，此内容为空时停止心跳
                 .addSendString("test send string 1")//设置连接开始时发送的内容，接收String
                 .addSendString("test send string 2")

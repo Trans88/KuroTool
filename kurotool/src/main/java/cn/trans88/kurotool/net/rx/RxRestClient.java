@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.File;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -22,12 +23,13 @@ import retrofit2.http.Url;
 public class RxRestClient {
     private static String URL;
     private static WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
-    private final RequestBody BODY;
+    private RequestBody BODY;
     private final File FILE;
     private final Context CONTEXT;
     private final String BASE_URL;
     private final boolean USE_INTERCEPTOR;
     private RxRestService service;
+    private final Map<String,String> headers =new HashMap<String,String>();
 
     public RxRestClient(RequestBody body, File file,
                         Context context, String baseUrl,boolean useInterceptor) {
@@ -56,20 +58,20 @@ public class RxRestClient {
         Observable<String> observable = null;
         switch (method) {
             case GET:
-                observable = service.get(URL, PARAMS);
+                observable = service.get(headers,URL, PARAMS);
                 break;
             case POST:
-                observable = service.post(URL, PARAMS);
+                observable = service.post(headers,URL, PARAMS);
                 break;
-//            case POST_RAW:
-//                observable = service.postRaw(URL, BODY);
-//                break;
-//            case PUT:
-//                observable = service.put(URL, PARAMS);
-//                break;
-//            case PUT_RAW:
-//                observable = service.putRaw(URL, BODY);
-//                break;
+            case POST_RAW:
+                observable = service.postRaw(headers,URL, BODY);
+                break;
+            case PUT:
+                observable = service.put(headers,URL, PARAMS);
+                break;
+            case PUT_RAW:
+                observable = service.putRaw(headers,URL, BODY);
+                break;
 //            case DELETE:
 //                observable = service.delete(URL, PARAMS);
 //                break;
@@ -101,10 +103,29 @@ public class RxRestClient {
         return this;
     }
 
-    public final RxRestClient setParams(String key, Object value) {
+    public final RxRestClient setParam(String key, Object value) {
         PARAMS.put(key, value);
         return this;
     }
+
+    public final RxRestClient setHeaders(HashMap<String,String> headers){
+        this.headers.putAll(headers);
+        return this;
+    }
+
+    public final RxRestClient setHeader(String key, String value){
+        this.headers.put(key, value);
+        return this;
+    }
+
+    public final RxRestClient setBody(RequestBody body){
+        this.BODY =body;
+        return this;
+    }
+
+
+
+
 
     //
 //    /**
@@ -114,28 +135,27 @@ public class RxRestClient {
          subscribe(request(HttpMethod.GET),observer);
     }
 
-    //
-//    public final Observable<String> put() {
-//        if (BODY == null) {
-//           return request(HttpMethod.PUT);
-//        } else {
-//            if (!PARAMS.isEmpty()) {
-//                throw new RuntimeException("putRaw params must be null");
-//            }
-//          return   request(HttpMethod.PUT);
-//        }
-//
-//    }
-//
+    public final void  put(BaseObserver<?> observer) {
+        if (BODY == null) {
+            subscribe(request(HttpMethod.PUT),observer);
+        } else {
+            if (!PARAMS.isEmpty()) {
+                throw new RuntimeException("putRaw params must be null");
+            }
+            subscribe(request(HttpMethod.PUT_RAW),observer);
+        }
+
+    }
+
     public final void post(BaseObserver<?> observer) {
         if (BODY == null) {
-            subscribe(request(HttpMethod.GET),observer);
+            subscribe(request(HttpMethod.POST),observer);
         } else {
             if (!PARAMS.isEmpty()) {
                 //For the original data, the parameter must be empty
                 throw new RuntimeException("postRaw params must be null");
             }
-            subscribe(request(HttpMethod.GET),observer);
+            subscribe(request(HttpMethod.POST_RAW),observer);
         }
 
     }
