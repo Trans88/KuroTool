@@ -29,7 +29,6 @@ public class WebSocketTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.e(TAG, "onCreate: "+DeviceUtil.INSTANCE.getDeviceID(this));
         String [] str ={Manifest.permission.READ_PHONE_STATE};
-
         List<String> testString =new ArrayList<>();
         testString.add("test send string 3");
         testString.add("test send string 4");

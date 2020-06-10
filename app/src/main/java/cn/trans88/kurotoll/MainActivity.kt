@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
 
         PermissionX.request(this,Manifest.permission.READ_PHONE_STATE){allGranted,deniedList ->
             if (allGranted){
-                DeviceUtil.getDeviceID(this)
+                Log.e("zby","有权限${DeviceUtil.getTotalMemory()}")
+
             }else{
                 Log.e("zby","没有权限")
             }
