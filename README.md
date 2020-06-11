@@ -34,7 +34,7 @@ Rxjava+Retrofit+OkHttp的综合性网络请求框架
 
 ```java
 RxRestClient rxRestClient = RxRestClient.builder()
-                .baseUrl("http://192.168.8.66:8083/") //输入基本的ip地址构建RxRestClient对象
+                .baseUrl("xxxx") //输入基本的ip地址构建RxRestClient对象
                 .useInterceptor(true)//是否开启Http拦截器，默认开启
                 .build();
         rxRestClient
@@ -47,7 +47,22 @@ RxRestClient rxRestClient = RxRestClient.builder()
                     }
                 });
 ```
+**在kotlin环境下**
+先在Application中初始化
+
+```kotlin
+//初始化ApiClient,第一个参数传入baseUrl,第二个参数传是否使用拦截器
+ApiClient.init("xxxx",true)
+```
+再请求具体的接口
+```kotlin
+val test = ApiClient.get<TestEntity>("users/")
+Log.e("test","date : "+test.command.id)
+```
+对！只需一行就能请求到对应的接口并转化成实体类，转化的类型通过泛型传入，得益于kotlin对回调的优化
+
 **如何使用webSocket长连接：**
+
 ```java
 WsManager wsManager = WsManager.builder()
                 .wsUrl("ws://ledok.cn:8083/")//连接地址

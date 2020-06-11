@@ -39,31 +39,31 @@ public class RxRestClientBuilder {
         return this;
     }
 
-    public final RxRestClientBuilder url(String url){
-        this.mUrl=url;
-        return this;
-    }
-    public final RxRestClientBuilder parmas(WeakHashMap<String, Object> params){
-        PARAMS.putAll(params);
-        return this;
-    }
-    public final RxRestClientBuilder parmas(String key, Object value){
-        PARAMS.put(key,value);
-        return this;
-    }
-    public final RxRestClientBuilder file(File file){
-        this.mFile=file;
-        return this;
-    }
-    public final RxRestClientBuilder file(String filePath){
-        this.mFile=new File(filePath);
-        return this;
-    }
-
-    public final RxRestClientBuilder raw(String raw){
-        this.mRequestBody=RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),raw);
-        return this;
-    }
+//    public final RxRestClientBuilder url(String url){
+//        this.mUrl=url;
+//        return this;
+//    }
+//    public final RxRestClientBuilder parmas(WeakHashMap<String, Object> params){
+//        PARAMS.putAll(params);
+//        return this;
+//    }
+//    public final RxRestClientBuilder parmas(String key, Object value){
+//        PARAMS.put(key,value);
+//        return this;
+//    }
+//    public final RxRestClientBuilder file(File file){
+//        this.mFile=file;
+//        return this;
+//    }
+//    public final RxRestClientBuilder file(String filePath){
+//        this.mFile=new File(filePath);
+//        return this;
+//    }
+//
+//    public final RxRestClientBuilder raw(String raw){
+//        this.mRequestBody=RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),raw);
+//        return this;
+//    }
     public final RxRestClient build(){
         return new RxRestClient(mRequestBody,mFile,mContext,mBaseUrl,mUse);
     }
