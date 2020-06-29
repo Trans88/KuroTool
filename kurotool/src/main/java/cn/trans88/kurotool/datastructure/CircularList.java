@@ -2,7 +2,7 @@ package cn.trans88.kurotool.datastructure;
 
 public class CircularList<T> {
     private static final String TAG = "CircularList";
-    //头结点
+    //Head node
     private  Item<T> header;
     private  int size;
 
@@ -20,7 +20,7 @@ public class CircularList<T> {
     }
 
     /**
-     * 初始化链表
+     * Initialize linked list
      * */
     public CircularList() {
         header = null;
@@ -28,7 +28,7 @@ public class CircularList<T> {
     }
 
     /**
-     * 插入链表（尾部）
+     * Insert linked list (tail)
      * */
     public   int insertTail(T obj) {
         Item<T> e = new Item<>(obj);
@@ -48,7 +48,7 @@ public class CircularList<T> {
     }
 
     /**
-     * 插入链表（头部）
+     * Insert linked list (head)
      */
     public int insertHead(T obj) {
         insertTail(obj);
@@ -57,7 +57,7 @@ public class CircularList<T> {
     }
 
     /**
-     * 删除链表中元素
+     * Delete elements in linked list
      * */
     public synchronized boolean delete(T obj) {
         if (null == header) {
@@ -128,8 +128,8 @@ public class CircularList<T> {
     }
 
     /**
-     * 获取链表的第i个位置的元素
-     * i从0开始
+     * Get the element of the i position of the linked list
+     * I from 0
      * */
     public T getItem(int index) {
         if (null == header) {
@@ -205,14 +205,14 @@ public class CircularList<T> {
     }
 
     /**
-     * 链表长度
+     * linked list length
      * */
     public int size() {
         return size;
     }
 
     /**
-     * 判断链表中是否存在某元素
+     * Determine whether an element exists in the linked list
      * */
     public boolean isContains(T obj) {
         Item<T> cur =header;
@@ -229,7 +229,7 @@ public class CircularList<T> {
     }
 
     /**
-     * 判断是否为空
+     * Judge whether it is empty
      */
     public boolean isEmpty() {
         return size <= 0;

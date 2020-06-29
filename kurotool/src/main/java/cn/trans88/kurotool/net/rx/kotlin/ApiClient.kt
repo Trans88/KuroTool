@@ -12,15 +12,15 @@ import kotlin.coroutines.suspendCoroutine
 object ApiClient {
     var apiClient:RxRestClient? =null
 
-    fun init(baseUrl: String,useInterceptor:Boolean){
+    fun init(baseUrl: String,useInterceptor:Boolean =true){
         apiClient =RxRestClient.builder()
             .baseUrl(baseUrl)
             .useInterceptor(useInterceptor)
             .build()
     }
 
-    suspend inline fun<reified T> post(url:String, body: RequestBody, headers: HashMap<String,String>):T{
-        return  suspendCoroutine {
+    suspend inline fun<reified T> post(url:String, body: RequestBody, headers: HashMap<String,String> ? =null):T =
+        suspendCoroutine {
             apiClient?.let {item->
                 item.setURL(url)
                     .setHeaders(headers)
@@ -31,14 +31,31 @@ object ApiClient {
                         }
 
                         override fun onFailed(msg: String) {
-                            super.onFailed(msg)
                             it.resumeWithException(Exception(msg))
                         }
                     })
             }
-
         }
-    }
+
+//    suspend inline fun<reified T> post(url:String, body: RequestBody, headers: HashMap<String,String> ? =null):T{
+//        return  suspendCoroutine {
+//            apiClient?.let {item->
+//                item.setURL(url)
+//                    .setHeaders(headers)
+//                    .setBody(body)
+//                    .post(object : BaseObserver<T>() {
+//                        override fun onGot(entities: T) {
+//                            it.resume(entities)
+//                        }
+//
+//                        override fun onFailed(msg: String) {
+//                            it.resumeWithException(Exception(msg))
+//                        }
+//                    })
+//            }
+//
+//        }
+//    }
 
      suspend inline fun<reified T> get(url:String):T{
         return  suspendCoroutine {
@@ -50,7 +67,6 @@ object ApiClient {
                         }
 
                         override fun onFailed(msg: String) {
-                            super.onFailed(msg)
                             it.resumeWithException(Exception(msg))
                         }
                     })

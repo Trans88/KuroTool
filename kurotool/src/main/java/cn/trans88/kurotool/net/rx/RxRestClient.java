@@ -29,7 +29,7 @@ public class RxRestClient {
     private final String BASE_URL;
     private final boolean USE_INTERCEPTOR;
     private RxRestService service;
-    private final Map<String,String> headers =new HashMap<String,String>();
+    private final Map headers =new HashMap<String,String>();
 
     public RxRestClient(RequestBody body, File file,
                         Context context, String baseUrl,boolean useInterceptor) {

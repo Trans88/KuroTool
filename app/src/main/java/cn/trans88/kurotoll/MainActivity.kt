@@ -6,7 +6,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import cn.trans88.kurotool.net.rx.BaseObserver
 import cn.trans88.kurotool.net.rx.RxRestClient
+import cn.trans88.kurotool.net.rx.kotlin.ApiClient
 import cn.trans88.kurotool.util.DeviceUtil
+import cn.trans88.kurotool.util.LogLevel
+import cn.trans88.kurotool.util.LogUtil
 import net.trs.kurotool.PermissionCallback
 import net.trs.kurotool.PermissionX
 import net.trs.kurotool.PermissionX.request
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
                 Log.e("zby","没有权限")
             }
         }
+        LogUtil.e("asdasdasd")
+
 //        val build = RxRestClient.builder()
 //            .url("")
 //            .build()
