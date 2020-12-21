@@ -127,7 +127,7 @@ public class WsManager {
 
                 super.onFailure(webSocket, t, response);
                 Log.i(TAG, "onFailure  connection failed :" + t.getMessage());
-//                mEmitter.onError(t);
+                mEmitter.onError(t);
                 wsMainHandler.removeCallbacks(heartbeat);
                 tryReconnect();
             }
